@@ -1,0 +1,19 @@
+﻿@model List<Channel>
+
+@if (Model.Count > 0)
+{
+    foreach (Channel ch in Model)
+    {
+        <li>
+            <a href="@Url.Action("ViewChannel", "Channel", new { id = ch.ChannelID })">
+                <img class="img-circle" src="~/Content/Images/ProfilePictures/@ch.ChannelProfilePicture" width="20" height="20" />
+                <span style="margin-left:5px" class="h5">@ch.ChannelName</span>
+            </a>
+        </li>
+    }
+}
+else
+{
+    <li class="header">Henüz bir kanalı takip etmiyorsunuz</li>
+}
+

@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "AddTags";
+}
+
+
+@using (Html.BeginForm("AddTags", "Denemeler", FormMethod.Post))
+{
+    @Html.TextBox("tags")
+    <button class="btn btn-info">Ekle</button>
+}
+
+@if (ViewBag.Sonuc != null)
+{
+    <label class="alert alert-info"> @ViewBag.Sonuc </label>
+}

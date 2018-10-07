@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BooTube</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+    <!-- BowerCSS inced Bootstrap -->
+    @Styles.Render("~/bowers/css")
+
+    <!-- SpecCSS for AdminLTE -->
+    @Styles.Render("~/adminLTE/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("pageStyles", required: false)
+    <style>
+        .sidebarLinkCustom {
+            margin-bottom: 7px;
+        }
+
+        .postTitle{
+            height:30px;
+        }
+
+        .postTitle > a {
+            color: black;
+        }
+
+        .postMeta > a {
+            color: dimgray;
+        }
+    </style>
+</head>
+<body class="skin-red-light sidebar-mini fixed">
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="@Url.Action("Index","Home")" class="logo">
+                <span class="logo-mini"><b>B</b>T</span>
+                <span class="logo-lg"><b>Boo</b>Tube</span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a class="hidden-lg hidden-md" data-toggle="push-menu">
+                    <i class="fa fa-bars fa-fw fa-2x" style="margin:10px; color:white"></i>
+                </a>
+                <div class="hidden-xs hidden-sm">
+                    @using (Html.BeginForm("SearchResults", "Post", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
+                    {
+                        <div class="input-group" style="width:500px">
+                            @Html.TextBox("txtSearch", null, new { @class = "form-control", placeholder = "Arama yapmak için yazmaya başlayın..." })
+                            <div class="input-group-btn">
+                                <button type="submit" name="submit" class="btn btn-warning btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        @if (Session["user"] != null)
+                        {
+                            User currentUser = Session["user"] as User;
+                            <li class="dropdown messages-menu">
+                                <!-- Menu toggle button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the messages -->
+                                        <ul class="menu">
+                                            <li>
+                                                <!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <!-- User Image -->
+                                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <!-- Message title and timestamp -->
+                                                    <h4>
+                                                        Support Team
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <!-- The message -->
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                        </ul>
+                                        <!-- /.menu -->
+                                    </li>
+                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown notifications-menu">
+                                <!-- Menu toggle button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="label label-warning">10</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 10 notifications</li>
+                                    <li>
+                                        <!-- Inner Menu: contains the notifications -->
+                                        <ul class="menu">
+                                            <li>
+                                                <!-- start notification -->
+                                                <a href="#">
+                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                </a>
+                                            </li>
+                                            <!-- end notification -->
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">View all</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="@Url.Action("NewPost", "Post")" class="">
+                                    <i class="fa fa-upload fa-fw"></i>Yeni Video
+                                </a>
+                            </li>
+                            <li class="dropdown user user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img class="img-circle" height="18" src="~/Content/Images/Thumbnails/@currentUser.ProfilePicture" />
+                                    <span class="hidden-xs">@currentUser.FullName</span>
+                                </a>
+
+
+                                <ul class="dropdown-menu">
+                                    <!-- The user image in the menu -->
+                                    <li class="user-header">
+                                        <img src="~/Content/Images/Thumbnails/@currentUser.ProfilePicture" />
+                                        <p>
+                                            @currentUser.FullName
+                                            <small>@currentUser.CreateTime.Year yılından beri üye</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Followers</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Sales</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Friends</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </li>
+                                    <li class="user-footer">
+                                        <div class="">
+                                            @Html.ActionLink("Profil", "ViewProfile", "User", null, new { @class = "btn btn-primary btn-flat btn-lg" })
+
+                                            @Html.ActionLink("Çıkış Yap", "LogOut", "Sign", null, new { @class = "btn btn-danger btn-flat pull-right btn-lg" })
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="dropdown"><a href="@Url.Action("Login", "Sign")" class="">Yükle</a></li>
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="">Giriş Yapılmadı </span><i class="fa fa-chevron-circle-down fa-fw"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="">
+                                            @Html.ActionLink("Üye Ol", "Register", "Sign", null, new { @class = "btn btn-success btn-flat btn-block" })
+                                        </div>
+                                        <div class="">
+
+                                            @Html.ActionLink("Giriş Yap", "Login", "Sign", null, new { @class = "btn btn-primary btn-flat btn-block" })
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        }
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-cog"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar pre-scrollable">
+            <section class="sidebar h4">
+                <ul class="sidebar-menu">
+                    <li style="margin-bottom:7px">
+                        <a href="@Url.Action("Index", "Home")">
+                            <i class="fa fa-fw fa-lg fa-home hidden-sm hidden-xs"></i>
+                            <i class="fa fa-fw fa-home hidden-lg hidden-md"></i>
+                            <span style="margin-left:9px">Başlangıç</span>
+                        </a>
+                    </li>
+                    @if (((User)Session["user"]) != null)
+                    {
+                        <li style="margin-bottom:7px">
+                            <a href="#">
+                                <i class="fa fa-fw fa-lg fa-heart hidden-sm hidden-xs"></i>
+                                <i class="fa fa-fw fa-heart hidden-lg hidden-md"></i>
+                                <span style="margin-left:9px">Takip Ettiklerim</span>
+                            </a>
+                        </li>
+
+                    }
+                    <li style="margin-bottom:7px">
+                        <a href="#">
+                            <i class="fa fa-fw fa-lg fa-fire hidden-sm hidden-xs"></i>
+                            <i class="fa fa-fw fa-fire hidden-lg hidden-md"></i>
+                            <span style="margin-left:9px">En çok izlenenler</span>
+                        </a>
+                    </li>
+                    <li style="margin-bottom:7px">
+                        <a href="#">
+                            <i class="fa fa-fw fa-lg fa-tags hidden-sm hidden-xs"></i>
+                            <i class="fa fa-fw fa-tags hidden-lg hidden-md"></i>
+                            <span style="margin-left:9px">Trend Etiketler</span>
+                        </a>
+                    </li>
+
+                    @if (((User)Session["user"]) != null)
+                    {
+                        <li><hr /></li>
+                        <li style="margin-bottom:7px">
+                            <a href="#">
+                                <i class="fa fa-fw fa-lg fa-cogs hidden-sm hidden-xs"></i>
+                                <i class="fa fa-fw fa-cogs hidden-lg hidden-md"></i>
+                                <span style="margin-left:9px">Ayarlar</span>
+                            </a>
+                        </li>
+                        <li style="margin-bottom:7px">
+                            <a href="@Url.Action("ViewChannels", "Channel")">
+                                <i class="fa fa-fw fa-lg fa-tv hidden-sm hidden-xs"></i>
+                                <i class="fa fa-fw fa-tv hidden-lg hidden-md"></i>
+                                <span style="margin-left:9px">Kanallarım</span>
+                            </a>
+                        </li>
+                        <li class="header">
+                            <hr /><h4>Takip Ettiklerim</h4><hr />
+                        </li>
+
+                        Html.RenderAction("GetFollowedChannels", "Channel");
+                    }
+
+
+                </ul>
+            </section>
+        </aside>
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <footer class="main-footer">
+            <strong>Copyright &copy; @DateTime.Now.Year Tamer Berat Çelik.</strong>
+            <div class="pull-right hidden-xs">
+                <div class="btn-group" style="margin-top:-8px">
+
+                    @if (Session["user"] == null)
+                    {
+                        @Html.ActionLink("Üye Ol", "Register", "Sign", null, new { @class = "btn btn-success btn-flat" })
+
+                        @Html.ActionLink("Giriş Yap", "Login", "Sign", null, new { @class = "btn btn-primary btn-flat" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Çıkış Yap", "LogOut", "Sign", null, new { @class = "btn btn-danger btn-flat" })
+                    }
+                </div>
+            </div>
+        </footer>
+        <aside class="control-sidebar control-sidebar-dark">
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+                <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="control-sidebar-home-tab">
+                    <h3 class="control-sidebar-heading">Recent Activity</h3>
+                    <ul class="control-sidebar-menu">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+                                    <p>Will be 23 on April 24th</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <h3 class="control-sidebar-heading">Tasks Progress</h3>
+                    <ul class="control-sidebar-menu">
+                        <li>
+                            <a href="javascript:;">
+                                <h4 class="control-sidebar-subheading">
+                                    Custom Template Design
+                                    <span class="pull-right-container">
+                                        <span class="label label-danger pull-right">70%</span>
+                                    </span>
+                                </h4>
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+                <div class="tab-pane" id="control-sidebar-settings-tab">
+                    <form method="post">
+                        <h3 class="control-sidebar-heading">General Settings</h3>
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Report panel usage
+                                <input type="checkbox" class="pull-right" checked>
+                            </label>
+                            <p>
+                                Some information about this general settings option
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </aside>
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bowers/js")
+
+    <script>
+
+        $('.sidebar-menu li').each(function () {
+            var a = $(this).find("a");
+            var link = $(location).attr("pathname");
+            if (a.attr("href") == link) {
+                $(this).addClass("active");
+                a.find("i").each(function () {
+                    $(this).addClass("text-red");
+                });
+            }
+        });
+
+        $('.postTitle').each(function () {
+            var a = $(this).find("a");
+            if (a.text().length > 35) {
+                a.text(a.text().substr(0, 35) + '...');
+            }
+        });
+
+        $('.postMeta').each(function () {
+            var a = $(this).find("a");
+            if (a.text().length > 25) {
+                a.text(a.text().substr(0, 25) + '...');
+            }
+        });
+
+    </script>
+
+    @RenderSection("pageScripts", required: false)
+</body>
+</html>

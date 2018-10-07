@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "VideoUpload";
+}
+
+<h2>VideoUpload</h2>
+
+@using (Html.BeginForm("VideoUpload", "Denemeler", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="denemeDosyasi" />
+    <input type="submit" />
+}
+
+
+@ViewBag.Sonuc

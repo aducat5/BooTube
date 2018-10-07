@@ -1,0 +1,52 @@
+﻿@model List<Channel>
+@{
+    ViewBag.Title = "Kanallar";
+}
+
+<section class="content-header">
+    <span class="h3">@Html.ActionLink("Kanallarım", "ViewChannels", "Channel")</span>
+    <span class="h3">|</span>
+    <span class="h3">@Html.ActionLink("Askıya Alınanlar", "ViewFrozenChannels", "Channel")</span>
+</section>
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            @if (ViewBag.Sonuc != null)
+            {
+                <div class="row alert alert-danger">
+                    @ViewBag.Sonuc
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+
+            <div class="box box-widget widget-user">
+
+                <div class="widget-user-header bg-green-gradient text-center">
+                    <h3 class="widget-user-username">Yeni Kanal Oluştur</h3>
+                </div>
+                <a href="@Url.Action("NewChannel")">
+                    <div class="widget-user-image fa-5x">
+                        <span class="fa-layers fa-fw">
+                            <i class="fas fa-circle text-lime"></i>
+                            <i class="fas fa-circle text-green" data-fa-transform="shrink-4"></i>
+                            <i class="fa-inverse fas fa-plus" data-fa-transform="shrink-6"></i>
+                        </span>
+                    </div>
+                </a>
+                <div class="box-footer">
+                    <br />
+                </div>
+
+            </div>
+
+        </div>
+        @Html.Partial("_ChannelsPartial", Model)
+    </div>
+</section>
+
+<!-- /.content -->

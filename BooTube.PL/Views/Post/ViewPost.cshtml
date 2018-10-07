@@ -1,0 +1,257 @@
+﻿@model Post
+@{
+    ViewBag.Title = "ViewPost";
+    Layout = "~/Views/Shared/_FullPageLayout.cshtml";
+    Post post = Model;
+    Video defaultVideo = Model.Videos.First();
+    User currentUser = Session["user"] as User;
+    int id = 0;
+    if (currentUser != null)
+    {
+        id = currentUser.UserID;
+    }
+    string videoPath = string.Format("{0}/{1}.{2}", defaultVideo.VideoFramzeSize, defaultVideo.VideoName, defaultVideo.VideoFormat);
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-1">
+            <div class="embed-responsive embed-responsive-16by9">
+                <video class="embed-responsive-item" controls="controls" width="1000">
+                    <source src="~/Content/Videos/@videoPath" type="video/@defaultVideo.VideoFormat" />
+                </video>
+            </div>
+            <div class="box">
+                <div class="box-header">
+                    <h3>
+                        @post.PostTitle
+
+                        @if (ViewBag.Follow != "true")
+                        {
+                            <a class="btn btn-danger btn-flat pull-right" id="followButton">Kanalı Takip Et</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-default btn-flat pull-right" id="followButton">Takibi Bırak</a>
+                        }
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div class="pull-left">
+                        @Html.ActionLink(post.Channel.ChannelName, "ViewChannel", "Channel", new { id = post.ChannelID }, new { @class = "btn btn-default" })
+                        <span class="badge bg-red">
+                            @post.PostAddons.Where(po => po.AddonType == 5 && po.IsDeleted == false).Count() Görüntülenme
+                        </span>
+                    </div>
+                    <div class="pull-right">
+
+                        @if (ViewBag.Like == "true")
+                        {
+                            <a class="btn btn-app text-red" id="likeButton">
+                                <i class="fas fa-fire fa-2x"></i>
+                                <span class="badge">@post.PostAddons.Where(po => po.AddonType == 2 && po.IsDeleted == false).Count()</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-app" id="likeButton">
+                                <i class="fas fa-fire fa-2x"></i>
+                                <span class="badge">@post.PostAddons.Where(po => po.AddonType == 2 && po.IsDeleted == false).Count()</span>
+                            </a>
+                        }
+
+                        @if (ViewBag.Dislike == "true")
+                        {
+                            <a class="btn btn-app text-red" id="dislikeButton">
+                                <i class="fas fa-fire-extinguisher fa-2x"></i>
+                                <span class="badge">@post.PostAddons.Where(po => po.AddonType == 4 && po.IsDeleted == false).Count()</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-app" id="dislikeButton">
+                                <i class="fas fa-fire-extinguisher fa-2x"></i>
+                                <span class="badge">@post.PostAddons.Where(po => po.AddonType == 4 && po.IsDeleted == false).Count()</span>
+                            </a>
+                        }
+                        <a class="btn btn-app">
+                            <i class="fas fa-share-alt fa-2x"></i>
+                            <span class="badge">@post.PostAddons.Where(po => po.AddonType == 3 && po.IsDeleted == false).Count()</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="box-group" id="accordion">
+                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                <div class="panel box box-default">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Video Açıklaması</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="box-body">
+
+                            <span class="badge bg-info pull-right">@defaultVideo.VideoFramzeSize</span>
+                            @post.PostDescription
+                            <br />
+                            <label>Etiketler:</label>
+                            <p>
+                                @foreach (PostTag tag in post.PostTags)
+                                {
+                                    <a><span class="badge">@tag.Tag.TagText</span></a>
+                                }
+                            </p>
+                            <label>
+                                <a class="text-black" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Daha az göster</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (currentUser != null)
+            {
+            <div class="box">
+                <div class="box-header">
+                    <h4>@currentUser.FullName olarak gönderiyi yorumla</h4>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <img class="img-circle img-responsive img-thumbnail" src="~/Content/Images/ProfilePictures/@currentUser.ProfilePicture" alt="@currentUser.FullName">
+                        </div>
+                        @using (Html.BeginForm("MakeComment", "Comment", FormMethod.Post))
+                        {
+                            <div class="col-md-8" style="margin-left:-20px; margin-top:8px;">
+                                @Html.TextBox("txtCommentText", null, new { placeholder = "Bir şeyler yazın...", @class = "form-control" })
+                            </div>
+                            <div class="col-md-1" style="margin-left:-20px; margin-top:8px;">
+                                <input type="submit" class="btn btn-info btn-flat" id="btnYorumla" value="Yorumla" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            
+            <div class="box-group" id="comments">
+                <div class="panel box box-danger">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">
+                            <a data-toggle="collapse" data-parent="#comments" href="#collapseTwo">Yorumlar</a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse in">
+                        <div class="box-body">
+                            @{
+                                //Html.RenderAction("RenderComments", new { id = post.PostID });
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <h4>Bu video için önerilenler</h4>
+                </div>
+                <div class="box-body">
+                    @{
+                        Html.RenderAction("SuggestedPosts", new { id = post.PostID });
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section pageStyles{
+
+}
+
+@section pageScripts{
+
+    <script>
+
+        function followSuccess() {
+            $('#followButton').attr('class', '');
+            $('#followButton').attr('class', 'btn btn-default btn-flat pull-right');
+            $('#followButton').text("Takibi Bırak");
+        }
+        function unfollowSuccess() {
+            $('#followButton').attr('class', '');
+            $('#followButton').attr('class', 'btn btn-danger btn-flat pull-right');
+            $('#followButton').text("Kanalı Takip Et");
+        }
+
+        $('#followButton').click(function () {
+            if ($(this).hasClass("btn-default"))
+            {
+                var url = "/Channel/UnfollowChannel?channelID=" +@post.ChannelID+"&userID=" +@id;
+                $.get(url, null, unfollowSuccess());
+            }
+            else
+            {
+                var url = "/Channel/FollowChannel?channelID="+@post.ChannelID+"&userID="+@id;
+                $.get(url, null, followSuccess());
+            }
+        });
+
+        var count;
+
+        $('#likeButton').click(function () {
+            if ($('#likeButton').hasClass('text-red'))
+            {
+                var url = "/Post/TakeLikeBack?postID=" +@post.PostID;
+                $.get(url, count, function (count) {
+                    $('#likeButton > span').text(count);
+                });
+
+                $('#likeButton').removeClass('text-red');
+            }
+            else
+            {
+                var url = "/Post/LikePost?postID=" +@post.PostID;
+                $.get(url, count, function (count) {
+                    $('#likeButton > span').text(count);
+                });
+
+                $('#likeButton').addClass('text-red');
+                if ($('#dislikeButton').hasClass('text-red'))
+                {
+                    $('#dislikeButton').removeClass('text-red');
+                    $('#dislikeButton > span').text($('#dislikeButton > span').text() - 1);
+                }
+            }
+        });
+
+        $('#dislikeButton').click(function () {
+            if ($('#dislikeButton').hasClass('text-red'))
+            {
+                $('#dislikeButton').removeClass('text-red');
+                //get ajax to deactivate dislike
+                var url = "/Post/TakeDislikeBack?postID=" +@post.PostID;
+                $.get(url, count, function (count) {
+                    $('#dislikeButton > span').text(count);
+                });
+            }
+            else
+            {
+                $('#dislikeButton').addClass('text-red');
+                var url = "/Post/DislikePost?postID=" +@post.PostID;
+                $.get(url, count, function (count) {
+                    $('#dislikeButton > span').text(count);
+                });
+                if ($('#likeButton').hasClass('text-red'))
+                {
+                    $('#likeButton').removeClass('text-red');
+                    $('#likeButton > span').text($('#likeButton > span').text() - 1);
+                }
+            }
+        });
+
+    </script>
+
+}
+

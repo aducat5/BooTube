@@ -1,0 +1,35 @@
+﻿@model List<List<Post>>
+@{
+    ViewBag.Title = "SuggestedVideos";
+    Layout = "~/Views/Shared/_FullPageLayout.cshtml";
+
+    List<Post> mostRelateds = Model[0].OrderByDescending(p => p.PostAddons.Where(pa => pa.AddonType == 5).Count()).ToList();
+    List<Post> others = Model[1].OrderByDescending(p => p.PostAddons.Where(pa => pa.AddonType == 5).Count()).ToList();
+}
+
+<h2>SuggestedVideos</h2>
+<ul>
+
+    @foreach (Post mp in mostRelateds)
+    {
+        <li>
+            @mp.PostTitle : @foreach (PostTag pt in mp.PostTags)
+            {
+                @(pt.Tag.TagText + " ,")
+            }
+        </li>
+    }
+
+</ul>
+<hr />
+<ul>
+    @foreach (Post op in others)
+    {
+    <li>
+        @op.PostTitle : @foreach (PostTag pt in op.PostTags)
+        {
+            @(pt.Tag.TagText + " ,")
+        }
+    </li>
+    }
+</ul>

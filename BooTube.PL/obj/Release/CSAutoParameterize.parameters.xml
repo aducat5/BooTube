@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="BooTubeEntities-Web.config Connection String" description="BooTubeEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/BooTubeModel.csdl|res://*/BooTubeModel.ssdl|res://*/BooTubeModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=slothserver.database.windows.net;initial catalog=BooTube;user id=slothsa;password=Tamerberat66;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Resources\\vsProjects\\BooTubeProject\\BooTubeProject\\BooTube\.PL\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='BooTubeEntities']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,101 @@
+﻿@model Channel
+@{
+    ViewBag.Title = "Yeni Kanal Oluştur";
+    User currentUser = Session["user"] as User;
+}
+
+
+<section class="content-header">
+    <h1>
+        Kanallarım
+    </h1>
+</section>
+<section class="content container-fluid">
+    @if (ViewBag.Hata != null)
+    {
+        <div class="row alert alert-danger">
+            @ViewBag.Hata
+        </div>
+    }
+    @using (Html.BeginForm("NewChannel", "Channel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("ChannelOwnerID", currentUser.UserID)
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <h3 style="margin-bottom: 25px; text-align: center;">Yeni Kanal Bilgileri</h3>
+                </div>
+                <div class="box-body">
+                    <div class="form-area">
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.ChannelName, new { @class = "form-control", placeholder = "Kanal Adı" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextAreaFor(m => m.ChannelName, new { @class = "form-control", placeholder = "Kanal Açıklaması" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <b>Kanal Simgesi</b>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <label class="input-group-btn">
+                                    <span class="btn btn-danger center-block">
+                                        Resim Seç <input type="file" style="display: none;" name="imgChannelProfilePicture" multiple>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <img class="img-bordered img-circle center-block" src="~/Content/Images/Thumbnails/@currentUser.ProfilePicture" height="100" width="100" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <b>Kanal Kapak Resmi</b>
+                </div>
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <label class="input-group-btn">
+                                    <span class="btn btn-danger center-block">
+                                        Resim Seç <input type="file" style="display: none;" name="imgChannelCoverPicture" multiple>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <img class="img-bordered img-circle center-block" src="~/Content/Images/ProfilePictures/@currentUser.ProfilePicture" height="100" width="100" />
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <b>Kanalı Oluştur</b>
+                </div>
+                <div class="box-body">
+                    <button class="btn btn-success btn-block"><i class="fa fa-check fa-5x"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+            }
+    </section>

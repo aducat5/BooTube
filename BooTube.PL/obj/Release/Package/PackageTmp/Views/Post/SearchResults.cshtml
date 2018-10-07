@@ -1,0 +1,95 @@
+﻿@model List<List<Post>>
+@{
+
+    ViewBag.Title = ViewBag.Query + " İçin Arama Sonuçları";
+    Layout = "~/Views/Shared/_FullPageLayout.cshtml";
+    List<Post> postsWithSameTitle = Model[0].Distinct().OrderByDescending(p => p.PostAddons.Where(pa => pa.AddonType == (int)AddonTypes.Click).Count()).ToList();
+    List<Post> postsWithSameDesc = Model[1].Distinct().OrderByDescending(p => p.PostAddons.Where(pa => pa.AddonType == (int)AddonTypes.Click).Count()).ToList();
+    List<Post> postsWithMostRelatedTags = Model[2].Distinct().OrderByDescending(p => p.PostAddons.Where(pa => pa.AddonType == (int)AddonTypes.Click).Count()).ToList();
+    List<Post> postsWithOtherRelatedTags = Model[3].Distinct().OrderByDescending(p => p.PostAddons.Where(pa => pa.AddonType == (int)AddonTypes.Click).Count()).ToList();
+
+    List<Post> searchResult = postsWithSameTitle.Union(postsWithSameDesc).Union(postsWithMostRelatedTags).Union(postsWithOtherRelatedTags).ToList();
+
+    //List<Post> postsWithFuzzyText = new List<Post>().Distinct().OrderByDescending(p => p.PostAddons.Where(pa => pa.AddonType == (int)AddonTypes.Click).Count()).ToList();
+
+    User current = null;
+    if (Session["user"] != null)
+    {
+        current = Session["user"] as User;
+    }
+
+    DateTime range = DateTime.Now.AddDays(-30);
+}
+
+<div class="container">
+    <section class="header">
+        <h1>"@ViewBag.Query" için arama sonuçarı</h1>
+        <h4>@searchResult.Count adet sonuç listeleniyor.</h4>
+    </section>
+</div>
+<hr style="border-width:1px!important; border-color:darkgray; width:85%" />
+<div class="container">
+    <section class="content">
+        @foreach (Post post in searchResult)
+        {
+            <div class="row well">
+                <div class="col-md-4">
+                    <img class="img-responsive thumbnail" src="~/Content/Images/Thumbnails/@post.PostThumbnailPath" />
+                    <span class="durationBox pull-right badge">
+                        <i class="fas fa-clock"></i> @post.Videos.FirstOrDefault().VideoDurationSeconds
+                    </span>
+                    @if (current != null && post.PostAddons.Where(pa => pa.AddonType == (int)AddonTypes.Click && pa.UserID == current.UserID).Count() > 0)
+                    {
+                        <div class="seenBox badge bg-red-active" data-toggle="tooltip" title="İzlendi">
+                            <i class="fas fa-fire fa-2x"></i>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-8">
+                    <h3 class="postTitle">@Html.ActionLink(post.PostTitle, "ViewPost", "Post", new { id = post.PostID }, null)</h3>
+                    <h5 class="postMeta">@Html.ActionLink(post.Channel.ChannelName, "ViewChannel", "Channel", new { id = post.ChannelID }, null) - @post.PostAddons.Where(pa => pa.AddonType == (int)AddonTypes.Click).Count() -  @post.CreateTime.ToShortDateString()</h5>
+                    <h5 class="postDesc"><a>@post.PostDescription</a></h5>
+
+                    <div class="box-group actButtons">
+                        <a class="btn btn-default btn-flat"><i class="fas fa-share-alt"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </section>
+</div>
+
+@section pageStyles{
+    <style>
+        .actButtons {
+            margin-top: 75px;
+            margin-left: -20px;
+        }
+
+        .seenBox {
+            position: relative;
+            top: -65px;
+            left: 15px;
+        }
+
+        .postTitle {
+            margin-top: 5px;
+        }
+
+        .postDesc {
+            margin-left: -20px;
+        }
+
+            .postDesc > a {
+                color: dimgray;
+            }
+
+        .durationBox {
+            position: relative;
+            top: -50px;
+            left: -15px;
+        }
+    </style>
+}
+

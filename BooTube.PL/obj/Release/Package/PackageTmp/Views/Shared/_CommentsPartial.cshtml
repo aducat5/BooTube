@@ -1,0 +1,39 @@
+﻿@model List<Comment>
+
+
+@foreach (Comment comment in Model)
+{
+    <div class="row">
+        <div class="col-md-2">
+            <img class="img-circle img-responsive img-thumbnail" style="width:80%; display:block; margin:auto" src="~/Content/Images/ProfilePictures/@comment.User.ProfilePicture" alt="@comment.User.FullName">
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <h5 class="text-bold" style="margin-top:10px;">@comment.User.FullName</h5>
+                @comment.CommentText
+            </div>
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-1">
+                    <a class="btn btn-info btn-flat btn-sm">Yanıtla</a>
+                </div>
+                <div class="col-md-4 form-group-sm">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <span class="text-muted pull-right">@comment.CreateTime.ToShortDateString()</span>
+        </div>
+        <!-- /.comment-text -->
+    </div>
+
+
+
+    <hr />
+
+
+}
+
+@section pageScripts{
+
+}

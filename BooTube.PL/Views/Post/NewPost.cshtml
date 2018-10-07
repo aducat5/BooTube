@@ -1,0 +1,92 @@
+﻿@model Post
+@{
+                /**/
+
+                ViewBag.Title = "Video Yükle";
+                User currentUser = Session["user"] as User;
+}
+
+
+
+<section class="content-header">
+    <h1>
+        Video Yükle
+    </h1>
+</section>
+<section class="content container-fluid">
+
+    @if (ViewBag.Sonuc != null)
+    {
+        <div class="row alert alert-info">
+            @ViewBag.Sonuc
+        </div>
+    }
+    @using (Html.BeginForm("NewPost", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <b>Videoyu seçin</b>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-danger center-block">
+                                            Video Seç <input type="file" style="display: none;" name="video" multiple>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <img class="img-bordered img-circle center-block" src="~/Content/Images/ProfilePictures/def.png" height="400" width="400" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <h3 style="margin-bottom: 25px; text-align: center;">Yeni Video Bilgileri</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-area">
+                            <div class="form-group">
+                                <label>Hangi Kanal Adıyla?</label>
+                                <select class="form-control" name="channelID">
+                                    <option value="0">Lütfen bir kanal seçin</option>
+                                    @foreach (Channel ch in currentUser.Channels.Where(ch => ch.IsFrozen == false && ch.IsDeleted == false).ToList())
+                                    {
+                                        <option value="@ch.ChannelID">@ch.ChannelName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Video Başlığı</label>
+                                @Html.TextBoxFor(m => m.PostTitle, new { @class = "form-control", placeholder = "Örnek Başlık" })
+                            </div>
+                            <div class="form-group">
+                                <label>Video Açıklaması</label>
+                                @Html.TextAreaFor(m => m.PostDescription, new { @class = "form-control", placeholder = "Video hakkında açıklayıcı kısa bir yazı" })
+                            </div>
+                            <div class="form-group">
+                                <label>Etiketler</label>
+                                @Html.TextBox("postTags", null, new { @class = "form-control", placeholder = "etiket1, etiket2, etiket3..." })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="box box-danger">
+                    <div class="box-body">
+                        <button class="btn btn-success btn-block"><i class="fa fa-check fa-5x"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</section>

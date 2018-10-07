@@ -1,0 +1,30 @@
+﻿@model List<List<Post>>
+@{
+    List<Post> mostRelateds = Model[0];
+    List<Post> otherRelateds = Model[1];
+}
+
+@if (mostRelateds.Count > 30)
+{
+    mostRelateds = mostRelateds.Take(30).ToList();
+    mostRelateds.AddRange(otherRelateds.Take(30 - mostRelateds.Count));
+}
+
+@foreach (Post post in mostRelateds)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/Post/ViewPost?id=@post.PostID"><img class="img-responsive" src="~/Content/Images/Thumbnails/@post.PostThumbnailPath" /></a>
+        </div>
+        <div class="col-md-6">
+            <h4 class="postTitle"><a href="/Post/ViewPost?id=@post.PostID">@post.PostTitle</a></h4>
+            <h5 class="postMeta"><a href="/Channel/ViewChannel?id=@post.ChannelID">@post.Channel.ChannelName</a></h5>
+            <h5 class="postMeta">@post.PostAddons.Where(pa => pa.AddonType == 5).Count() Görüntülenme</h5>
+        </div>
+    </div><br />
+}
+
+
+
+
+

@@ -1,0 +1,134 @@
+﻿@model User
+@{
+    ViewBag.Title = "Kayıt Ol";
+}
+
+@section pageStyles{
+    <link rel="stylesheet" href="~/plugins/iCheck/square/blue.css">
+}
+@section pageScripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+}
+
+
+<!-- Main content -->
+<section class="content container-fluid">
+    <div class="row">
+        @if (ViewBag.RegState != null)
+        {
+            <div class="container">
+
+                <div class="@ViewBag.AlertState alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Dikkat!</h4>
+                    @ViewBag.RegState
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <br />
+            <!-- Horizontal Form -->
+            <div class="box box-success">
+
+                @using (Html.BeginForm("Register", "Sign", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Kayıt Formu</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Kullanıcı Adı:</label>
+
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UserName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-sm-3 control-label">Ad Soyad:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "(İsteğe Bağlı)" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-sm-3 control-label">E-Posta:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.Mail, new { @class = "form-control", placeholder = "ornek@ornek.com", type = "email" })
+                                @Html.ValidationMessageFor(m => m.Mail)
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label for="inputEmail3" class="col-sm-3 control-label">Şifre:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", placeholder = "minimun 6 karakter olmalıdır", type = "password" })
+                                @Html.ValidationMessageFor(m => m.Password)
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <div class="checkbox icheck col-sm-9 col-sm-offset-3">
+                                <label>
+                                    <input required type="checkbox">&nbsp;<sub><a href="#">Kullanıcı Hakları Sözleşmesi</a>'ni okudum ve kabul ediyorum.</sub>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-success btn-md btn-flat pull-right col-md-pull-1 col-sm-5">Kaydı Tamamla</button>
+                    </div>
+                    <div class="box-footer text-center">
+                        Zaten üye misin? @Html.ActionLink("Giriş Yap", "Login", "Sign")
+                    </div>
+                }
+            </div>
+
+        </div>
+        <div class="col-md-1 text-center">
+            <br /><br />
+            <strong>
+                |<br />
+                |<br />
+                |<br />
+                ya da<br />
+                |<br />
+                |<br />
+                |<br />
+            </strong><br />
+        </div>
+        <div class="col-md-3">
+            <br /><br /><br />
+
+            <div class="btn-group btn-group-lg btn-group-vertical btn-block">
+
+                <a href="#" class="btn btn-facebook disabled"><i class="fab fa-facebook fa-fw fa-lg fa-pull-left"></i> Facebookla Kayıt Ol</a>
+                <a href="#" class="btn btn-google disabled"><i class="fab fa-google-plus-square fa-fw fa-lg pull-left"></i> Google ile Kayıt Ol</a>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- /.content -->

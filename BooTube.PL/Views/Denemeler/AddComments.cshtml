@@ -1,0 +1,17 @@
+﻿@model List<Comment>
+@{
+    ViewBag.Title = "AddComments";
+    Layout = "~/Views/Shared/_FullPageLayout.cshtml";
+}
+
+<h2>AddComments</h2>
+
+@foreach (Comment item in Model)
+{
+    <label>@item.User.FullName</label>
+    <label>@item.Post.PostTitle</label>
+    <label>@item.CommentText</label>
+    <label>@item.ReplyID</label>
+    <label>@item.CreateTime</label>
+    <hr />
+}

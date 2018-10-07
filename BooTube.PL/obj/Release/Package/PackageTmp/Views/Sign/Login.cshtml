@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Giriş Yap";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="container">
+            @if (Request.QueryString["regState"] != null)
+            {
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Tebrikler!</h4>
+                    Kayıt Başarılı. Kullanıcı adı / e-posta adresi ve şifrenizle giriş yapabilirsiniz.
+                </div>
+            }
+
+            @if (ViewBag.LoginState != null)
+            {
+                <div class="@ViewBag.AlertState alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Dikkat!</h4>
+                    @ViewBag.LoginState
+                </div>
+
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <!-- Horizontal Form --><br />
+                                    <div class="box box-primary">
+
+                                        @using (Html.BeginForm("Login", "Sign", FormMethod.Post, new { @class = "form-horizontal" }))
+                                        {
+
+                                            <div class="box-body">
+                                                <br />
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Kullanıcı Adı:</label>
+
+                                                    <div class="col-sm-8">
+
+                                                        <input type="text" class="form-control" name="txtUserName" placeholder="ya da e-posta">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Şifre:</label>
+                                                    <div class="col-sm-8">
+
+                                                        <input type="password" class="form-control" name="txtPassword" placeholder="">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <!-- /.box-body -->
+                                            <div class="box-footer">
+                                                <button type="submit" class="btn btn-primary btn-md btn-flat pull-right col-md-pull-1 col-sm-5">Giriş Yap</button>
+                                            </div>
+                                            <!-- /.box-footer -->
+
+                                            <div class="box-footer text-center">
+                                                Hala üye değil misin? @Html.ActionLink("Üye Ol", "Register", "Sign")
+                                            </div>
+
+                                        }
+                                    </div>
+
+        </div>
+        <div class="col-md-1 text-center">
+            <br /><br />
+            <strong class="hidden-xs hidden-sm">
+                |<br />
+                |<br />
+                |<br />
+            </strong>
+            <strong>ya da</strong>
+            <strong class="hidden-xs hidden-sm">
+                <br />
+                |<br />
+                |<br />
+                |<br />
+            </strong><br />
+        </div>
+        <div class="col-md-3">
+            <br /><br /><br />
+            <div class="btn-group btn-group-lg btn-group-vertical btn-block">
+
+                <a href="#" class="btn btn-facebook disabled"><i class="fab fa-facebook fa-fw fa-lg fa-pull-left"></i> Facebookla Giriş Yap</a>
+                <a href="#" class="btn btn-google disabled"><i class="fab fa-google-plus-square fa-fw fa-lg pull-left"></i> Google ile Giriş Yap</a>
+
+            </div>
+        </div>
+    </div>
+
+</section>

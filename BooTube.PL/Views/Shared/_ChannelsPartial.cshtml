@@ -1,0 +1,77 @@
+﻿@model List<Channel>
+
+@if (Model.Count > 0)
+{
+    foreach (Channel ch in Model)
+    {//TODO: Unfreeze Channel seçeneği eksik.
+        <div class="col-md-4">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user">
+
+                <div class="widget-user-header" style="background: url('../../Content/Images/Thumbnails/@ch.ChannelCoverPicture') center center;">
+                    <div class="row">
+                        <div class="col-md-8 ">
+                            <a href="@Url.Action("ViewChannel", "Channel", new { id = ch.ChannelID })" class="" style="color:white">
+                                <h3 class="widget-user-username text-center bg-red-gradient">@ch.ChannelName</h3>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn-group btn-group-vertical btn-group-sm">
+                                <a href="@Url.Action("DeleteChannel", "Channel", new { id = ch.ChannelID })" class="btn btn-danger btn-flat"><i class="fa fa-times fa-fw"></i>Kaldır</a>
+                                <a href="@Url.Action("EditChannel", "Channel", new { id = ch.ChannelID })" class="btn btn-warning btn-flat"><i class="fa fa-edit fa-fw"></i>Düzenle</a>
+                                <a href="@Url.Action("FreezeChannel", "Channel", new { id = ch.ChannelID })" class="btn btn-default btn-flat"><i class="fa fa-ban fa-fw"></i>Askıya Al</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="widget-user-image">
+                    <img class="img-circle" src="~/Content/Images/Thumbnails/@ch.ChannelProfilePicture" alt="User Avatar">
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">3,200</h5>
+                                <span class="description-text">SALES</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">13,000</h5>
+                                <span class="description-text">FOLLOWERS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4">
+                            <div class="description-block">
+                                <h5 class="description-header">35</h5>
+                                <span class="description-text">PRODUCTS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+            <!-- /.widget-user -->
+
+
+        </div>
+    }
+}
+else
+{
+    <div class="col-md-8">
+        <div class="callout callout-warning bg-gray">
+            <p>Bu kullanıcıya ait bir kanal açılmamıştır.</p>
+        </div>
+    </div>
+}
+
+
+

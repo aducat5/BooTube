@@ -1,0 +1,16 @@
+﻿@model User
+
+
+@using (Html.BeginForm("Index", "Denemeler", FormMethod.Post))
+{
+    <div>
+        @Html.TextBoxFor(m => m.UserName)
+    </div>
+    <div>
+        @Html.TextBoxFor(m => m.Mail)
+    </div>
+    <div>
+        @Html.TextBoxFor(m => m.Password)
+    </div>
+    <button>Üye Ekle</button>
+}

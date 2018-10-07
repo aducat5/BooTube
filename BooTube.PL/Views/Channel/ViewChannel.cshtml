@@ -1,0 +1,173 @@
+﻿@model Channel
+@{
+    ViewBag.Title = "ViewChannel";
+    int id = 0;
+    User current = Session["user"] as User;
+    if (current != null)
+    {
+        id = current.UserID;
+    }
+}
+<section class="content-header">
+    <h1>
+        @Model.ChannelName
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user">
+
+                <div class="widget-user-header" style="height: 250px; background: url('../../Content/Images/ChannelCovers/@Model.ChannelCoverPicture') center center;">
+                </div>
+                <div class="widget-user-image">
+                    <img class="img-circle" src="~/Content/Images/Thumbnails/@Model.ChannelProfilePicture" alt="User Avatar">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-danger">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="~/Content/Images/ProfilePictures/@Model.ChannelProfilePicture" alt="User profile picture">
+
+                    <div class="row">
+                        <h3 class="profile-username text-center">
+                            @Model.ChannelName
+                        </h3>
+                        @if (ViewBag.Follow != "true")
+                        {
+                            <a class="btn btn-danger btn-flat btn-block" id="followButton">Kanalı Takip Et</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-default btn-flat btn-block" id="followButton">Takibi Bırak</a>
+                        }
+                    </div>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Yorum</b> <a class="pull-right">1,322</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Takip</b> <a class="pull-right">@Model.Follows.Where(f => f.IsDeleted == false).Count()</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Beğeni</b> <a class="pull-right"></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- About Me Box -->
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Kanal Bilgileri</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <strong>Hakkında</strong>
+                    <p class="text-muted">
+                        @Model.ChannelDescription
+                    </p>
+                    <strong>Sosyal</strong><br />
+                    <div class="btn-group">
+                        <a class="btn btn-facebook btn-flat">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                        <a class="btn btn-google btn-flat">
+                            <i class="fab fa-google-plus-square fa-2x"></i>
+                        </a>
+                        <a class="btn btn-twitter btn-flat">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                        <a class="btn btn-instagram btn-flat">
+                            <i class="fab fa-instagram fa-2x"></i>
+                        </a>
+                        <a class="btn btn-pinterest btn-flat">
+                            <i class="fab fa-pinterest-square fa-2x"></i>
+                        </a>
+                        <a class="btn btn-tumblr btn-flat">
+                            <i class="fab fa-tumblr-square fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#allvid" data-toggle="tab">Tüm Videolar</a></li>
+                    <li><a href="#lists" data-toggle="tab">Oynatma Listeleri</a></li>
+                    <li><a href="#community" data-toggle="tab">Topluluk</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="allvid">
+                        @{
+                            Html.RenderPartial("~/Views/Shared/_PostShowcasePartial.cshtml", Model.Posts.OrderByDescending(p => p.CreateTime).ToList());
+                        }
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="lists">
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="community">
+
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+@section pageScripts{
+    <script>
+
+        $('.postWrapper').each(function () {
+            $(this).removeClass('col-md-2');
+            $(this).addClass('col-md-3');
+        })
+
+
+        function followSuccess() {
+            $('#followButton').attr('class', '');
+            $('#followButton').attr('class', 'btn btn-default btn-flat btn-block');
+            $('#followButton').text("Takibi Bırak");
+        }
+
+        function unfollowSuccess() {
+            $('#followButton').attr('class', '');
+            $('#followButton').attr('class', 'btn btn-danger btn-flat btn-block');
+            $('#followButton').text("Kanalı Takip Et");
+        }
+
+        $('#followButton').click(function () {
+            if ($(this).hasClass("btn-default"))
+            {
+                var url = "/Channel/UnfollowChannel?channelID=" +@Model.ChannelID+"&userID=" +@id;
+                $.get(url, null, unfollowSuccess());
+            }
+            else
+            {
+                var url = "/Channel/FollowChannel?channelID="+@Model.ChannelID+"&userID="+@id;
+                $.get(url, null, followSuccess());
+            }
+        });
+
+
+    </script>
+}

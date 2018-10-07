@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "ImageUpload";
+}
+
+<h2>ImageUpload</h2>
+
+@using (Html.BeginForm("ImageUpload", "Denemeler", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="denemeDosyasi" />
+    <input type="submit" />
+}
+    <img src="~/Content/Images/Thumbnails/9c659c95a988485d93a9f7b26706232f.png" alt="Alternate Text" />
+    <img src="~/Content/Images/ProfilePictures/9c659c95a988485d93a9f7b26706232f.png" alt="Alternate Text" />
+
+@ViewBag.Sonuc

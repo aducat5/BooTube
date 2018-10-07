@@ -1,0 +1,25 @@
+﻿@model List<Post>
+
+@if (Model.Count > 0)
+{
+    
+<div class="row">
+    @foreach (Post post in Model)
+    {
+    <div class="col-md-2 postWrapper">
+        <a href="@Url.Action("ViewPost", "Post", new { id = post.PostID })"><img class="img-responsive" src="~/Content/Images/Thumbnails/@post.PostThumbnailPath" /></a>
+        <p><h4 class="postTitle">@Html.ActionLink(post.PostTitle, "ViewPost", "Post", new { id = post.PostID }, null)</h4></p>
+        <h5 class="postMeta">@Html.ActionLink(post.Channel.ChannelName, "ViewChannel", "Channel", new { id = post.ChannelID }, null)</h5>
+        <h5 class="postMeta">
+            @post.PostAddons.Where(po => po.AddonType == 5).Count() Tık
+            <span class="pull-right">@post.CreateTime.ToShortDateString()</span>
+        </h5>
+    </div>
+    }
+</div>
+}
+else
+{
+    <h4>Henüz hiçbir kanalı takip etmiyorsunuz <a href="#">Önerilen kanallara göz atmak ister misin?</a></h4>
+}
+
