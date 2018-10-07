@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BooTubeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AddonType">
+    <Key>
+      <PropertyRef Name="TypeID" />
+    </Key>
+    <Property Name="TypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="PostAddons" Relationship="Self.FK_PostAddons_AddonTypes" FromRole="AddonTypes" ToRole="PostAddons" />
+  </EntityType>
+  <EntityType Name="Channel">
+    <Key>
+      <PropertyRef Name="ChannelID" />
+    </Key>
+    <Property Name="ChannelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChannelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ChannelProfilePicture" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ChannelCoverPicture" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+    <Property Name="ChannelDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ChannelOwnerID" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsFrozen" Type="Boolean" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Channels_Users" FromRole="Channels" ToRole="Users" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Channels" FromRole="Channels" ToRole="Comments" />
+    <NavigationProperty Name="Follows" Relationship="Self.FK_Follows_Channels" FromRole="Channels" ToRole="Follows" />
+    <NavigationProperty Name="Posts" Relationship="Self.FK_Posts_Channels" FromRole="Channels" ToRole="Posts" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="CommentID" />
+    </Key>
+    <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CommenterID" Type="Int32" Nullable="false" />
+    <Property Name="CommentPostID" Type="Int32" Nullable="false" />
+    <Property Name="CommentedCommentID" Type="Int32" />
+    <Property Name="CommentText" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsAsChannel" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Channel" Relationship="Self.FK_Comments_Channels" FromRole="Comments" ToRole="Channels" />
+    <NavigationProperty Name="Comments1" Relationship="Self.FK_Comments_Comments" FromRole="Comments" ToRole="Comments1" />
+    <NavigationProperty Name="Comment1" Relationship="Self.FK_Comments_Comments" FromRole="Comments1" ToRole="Comments" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_Comments_Posts" FromRole="Comments" ToRole="Posts" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Follow">
+    <Key>
+      <PropertyRef Name="FollowID" />
+    </Key>
+    <Property Name="FollowID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FollowerID" Type="Int32" Nullable="false" />
+    <Property Name="FollowedID" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="Channel" Relationship="Self.FK_Follows_Channels" FromRole="Follows" ToRole="Channels" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Follows_Users" FromRole="Follows" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="PostID" />
+    </Key>
+    <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PostTitle" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PostVideoPath" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PostThumbnailPath" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ChannelID" Type="Int32" Nullable="false" />
+    <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsPublished" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Channel" Relationship="Self.FK_Posts_Channels" FromRole="Posts" ToRole="Channels" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Posts" FromRole="Posts" ToRole="Comments" />
+    <NavigationProperty Name="PostAddons" Relationship="Self.FK_PostAddons_Posts" FromRole="Posts" ToRole="PostAddons" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Mail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProfilePicture" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="UpdateTime" Type="DateTime" Precision="0" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="Channels" Relationship="Self.FK_Channels_Users" FromRole="Users" ToRole="Channels" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
+    <NavigationProperty Name="Follows" Relationship="Self.FK_Follows_Users" FromRole="Users" ToRole="Follows" />
+    <NavigationProperty Name="PostAddons" Relationship="Self.FK_PostAddons_Users" FromRole="Users" ToRole="PostAddons" />
+  </EntityType>
+  <EntityType Name="PostAddon">
+    <Key>
+      <PropertyRef Name="AddonID" />
+      <PropertyRef Name="AddontType" />
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="PostID" />
+      <PropertyRef Name="CreateTime" />
+    </Key>
+    <Property Name="AddonID" Type="Int32" Nullable="false" />
+    <Property Name="AddontType" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="PostID" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="AddonType" Relationship="Self.FK_PostAddons_AddonTypes" FromRole="PostAddons" ToRole="AddonTypes" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_PostAddons_Posts" FromRole="PostAddons" ToRole="Posts" />
+    <NavigationProperty Name="User" Relationship="Self.FK_PostAddons_Users" FromRole="PostAddons" ToRole="Users" />
+  </EntityType>
+  <Association Name="FK_PostAddons_AddonTypes">
+    <End Role="AddonTypes" Type="Self.AddonType" Multiplicity="1" />
+    <End Role="PostAddons" Type="Self.PostAddon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AddonTypes">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="PostAddons">
+        <PropertyRef Name="AddontType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Channels_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Channels" Type="Self.Channel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Channels">
+        <PropertyRef Name="ChannelOwnerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Channels">
+    <End Role="Channels" Type="Self.Channel" Multiplicity="0..1" />
+    <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channels">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="IsAsChannel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Follows_Channels">
+    <End Role="Channels" Type="Self.Channel" Multiplicity="1" />
+    <End Role="Follows" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channels">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="Follows">
+        <PropertyRef Name="FollowedID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Posts_Channels">
+    <End Role="Channels" Type="Self.Channel" Multiplicity="1" />
+    <End Role="Posts" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channels">
+        <PropertyRef Name="ChannelID" />
+      </Principal>
+      <Dependent Role="Posts">
+        <PropertyRef Name="ChannelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Comments">
+    <End Role="Comments" Type="Self.Comment" Multiplicity="0..1" />
+    <End Role="Comments1" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comments">
+        <PropertyRef Name="CommentID" />
+      </Principal>
+      <Dependent Role="Comments1">
+        <PropertyRef Name="CommentedCommentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Posts">
+    <End Role="Posts" Type="Self.Post" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="CommentPostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="CommenterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Follows_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Follows" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Follows">
+        <PropertyRef Name="FollowerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostAddons_Posts">
+    <End Role="Posts" Type="Self.Post" Multiplicity="1" />
+    <End Role="PostAddons" Type="Self.PostAddon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="PostAddons">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostAddons_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="PostAddons" Type="Self.PostAddon" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="PostAddons">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BooTubeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AddonTypes" EntityType="Self.AddonType" />
+    <EntitySet Name="Channels" EntityType="Self.Channel" />
+    <EntitySet Name="Comments" EntityType="Self.Comment" />
+    <EntitySet Name="Follows" EntityType="Self.Follow" />
+    <EntitySet Name="Posts" EntityType="Self.Post" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="PostAddons" EntityType="Self.PostAddon" />
+    <AssociationSet Name="FK_PostAddons_AddonTypes" Association="Self.FK_PostAddons_AddonTypes">
+      <End Role="AddonTypes" EntitySet="AddonTypes" />
+      <End Role="PostAddons" EntitySet="PostAddons" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Channels_Users" Association="Self.FK_Channels_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Channels" EntitySet="Channels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Channels" Association="Self.FK_Comments_Channels">
+      <End Role="Channels" EntitySet="Channels" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Follows_Channels" Association="Self.FK_Follows_Channels">
+      <End Role="Channels" EntitySet="Channels" />
+      <End Role="Follows" EntitySet="Follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Posts_Channels" Association="Self.FK_Posts_Channels">
+      <End Role="Channels" EntitySet="Channels" />
+      <End Role="Posts" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Comments" Association="Self.FK_Comments_Comments">
+      <End Role="Comments" EntitySet="Comments" />
+      <End Role="Comments1" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Posts" Association="Self.FK_Comments_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Users" Association="Self.FK_Comments_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Follows_Users" Association="Self.FK_Follows_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Follows" EntitySet="Follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostAddons_Posts" Association="Self.FK_PostAddons_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="PostAddons" EntitySet="PostAddons" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostAddons_Users" Association="Self.FK_PostAddons_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostAddons" EntitySet="PostAddons" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
