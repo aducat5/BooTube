@@ -46,3 +46,15 @@ D:\Resources\vsProjects\BooTubeProject\BooTubeProject\BooTube.DAL\obj\Debug\BooT
 D:\Resources\vsProjects\BooTubeProject\BooTubeProject\BooTube.DAL\obj\Debug\BooTube.DAL.csproj.CopyComplete
 D:\Resources\vsProjects\BooTubeProject\BooTubeProject\BooTube.DAL\obj\Debug\BooTube.DAL.dll
 D:\Resources\vsProjects\BooTubeProject\BooTubeProject\BooTube.DAL\obj\Debug\BooTube.DAL.pdb
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\bin\Debug\BooTube.DAL.dll.config
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\bin\Debug\BooTube.DAL.dll
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\bin\Debug\BooTube.DAL.pdb
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\bin\Debug\EntityFramework.dll
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\bin\Debug\EntityFramework.xml
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\obj\Debug\BooTube.DAL.csprojAssemblyReference.cache
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\obj\Debug\BooTube.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\obj\Debug\BooTube.DAL.csproj.CopyComplete
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\obj\Debug\BooTube.DAL.dll
+C:\Users\Invenoa\Source\Repos\aducat5\BooTube\BooTube.DAL\obj\Debug\BooTube.DAL.pdb
